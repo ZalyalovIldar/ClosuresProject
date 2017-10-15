@@ -10,63 +10,22 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var label: UILabel!
-    
-    lazy var someArray:[String] = {
-        
-        return ["NewValue","NewValue","NewValue","NewValue"]
-    }()
-    
-    lazy var tableView: UITableView = {
-        
-        let table = UITableView(frame: self.view.frame, style: .grouped)
-        return table
-    }()
+    var doWork: (() ->Void)?
+    var testSum = 50
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        testMethods()
+    }
+    
+    private func testMethods() {
+        let findPiDigitMethod = digitInPI(position: 5)
+        print(findPiDigitMethod())
         
-        let value = calculateValue(with: 5)
-        let value1 = calculateValue(with: 5)
+        testWork()
         
-        someArray.sort { (string1: String, string2: String) -> Bool in
-            return string1 > string2
-        }
-        
-        someArray.sort { (str1, str2) -> Bool in return str1 > str2 }
-        
-        someArray.sort { (str1, str2) -> Bool in str1 > str2 }
-        
-        someArray.sort{ $0 > $1 }
-        
-        someArray.sort(by: >)
-        
-        let a = 5
-        let b = 6
-        
-        var sumBlock: Int = {
-            return a + b
-        }()
-        
-        print(value())
-        print(value())
-        print(value1())
-        
-        someFunction { [weak self] (myInt) in
-            
-            guard let strongSelf = self else { return }
-            
-            strongSelf.calculate(with: myInt)
-            
-            let value = strongSelf.someArray[myInt]
-            
-        }
-        
-        label.text = "dasd"
-        label.frame.size.width = 100
-        
-       
+        move(string: "HelloWorld", to: 5) { print($0) }
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,65 +33,66 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func calculateValue(with someInt: Int) -> () -> Int{
-        var value = 0
+    //MARK: - first exercise
+    
+    private func digitInPI(position: Int) -> () -> Int {
         
-        func calculate() -> Int {
+        func findDigit() -> Int {
+            let fraction = 1
+            let errorCode = -1
+            let seperator = "."
             
-            value += someInt
-            
-            return value
+            let stringPI = String(Double.pi)
+            let partsOfPI = stringPI.components(separatedBy: seperator)
+            let fractionString = partsOfPI[fraction]
+            if fractionString.count < position {
+                return errorCode
+            }
+            let charactefOfDigit:String = fractionString[position]
+            if let digit = Int(charactefOfDigit) {
+                return digit
+            }
+            return errorCode
         }
         
-        return calculate
+        return findDigit
     }
     
-    func calculate(with someInt: Int) -> Int {
-        var value = 0
-        
-        return value + someInt
+    //MARK: - second exercise
+    
+    private func testWork() {
+        doWork = { [weak self] in
+            if let selfWrapped = self {
+                selfWrapped.testSum += 50
+                print(selfWrapped.testSum)
+            }
+        }
+        if let work = doWork {
+            work()
+        }
     }
     
-    func someFunction(completion:@escaping (Int) -> (Void)) {
-        
-        var someInt = 5
-        
-        completion(someInt)
-        
-        let cl = SomeClass()
-        let structCL = SomeStruct(name: "", age: 123)
-        let secondCl = structCL
-        
-    }
+    //MARK: - third exercise
     
-}
-
-extension Int {
-    
-    func sum(with int: Int) {
-        return self + int
+    private func move(string: String, to position: Int, completionBlock: @escaping (String) -> ()) {
+        var result = string
+        for _ in 0 ..< position {
+            let lastChar = result.removeLast()
+            result = String(lastChar) + result
+        }
+        completionBlock(result)
     }
-}
-struct SomeStruct {
-    var name: String
-    var age: Int
-}
-
-extension SomeStruct {
-    func someFun() {
-        
-    }
-}
-
-class SomeClass {
-    var name: String!
-    var age: Int = 5
     
 }
 
-extension SomeClass {
-    var newValue: Int? {
-        return self.age
+extension String {
+    
+    subscript (i: Int) -> Character {
+        return self[index(startIndex, offsetBy: i)]
     }
-}
+    
+    subscript (i: Int) -> String {
+        return String(self[i] as Character)
+    }
 
+}
