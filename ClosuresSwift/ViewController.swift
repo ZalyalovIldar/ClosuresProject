@@ -5,6 +5,7 @@ class ViewController: UIViewController {
     let dotSeporator:Character = "."
     let stringToWorkWith = "Hello"
     let primal:Character = "!"
+    var doSomeFunction: (() -> Int)!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -13,29 +14,10 @@ class ViewController: UIViewController {
     func testingMethods() {
         
         // MARK:- first task testing
-        let calculatedKValue = calculateKNumber(with: 10)
+        let calculatedKValue = calculateKNumber(with: 99999)
         print(calculatedKValue())
         
         // MARK:- second task testing
-        doSomeFunction = {firstValue,secondValue in
-            return firstValue / secondValue
-        }
-        print(doSomeFunction(10,5))
-        doSomeFunction = {firstValue,secondValue in
-            return firstValue * secondValue
-        }
-        
-        print(doSomeFunction(10,5))
-        
-        doSomeFunction = {firstValue,secondValue in
-            return firstValue - secondValue
-        }
-        print(doSomeFunction(10,5))
-        
-        doSomeFunction = {firstValue,secondValue in
-            return firstValue + secondValue
-        }
-        print(doSomeFunction(10,5))
         
         // MARK:- third task testing
         shift(string: stringToWorkWith, to: 2) {print($0)}
@@ -51,18 +33,22 @@ class ViewController: UIViewController {
             for i in divisionedPi.characters {
                 test.append(i)
             }
+            if test.count < position {
+                return -1
+            } else {
             let test:String = String(test[position])
             
             let kNumber = Int(test)
             
             return kNumber!
-
+            }
         }
         return calculatePisKNumber
     }
     
-    //    MARK: - second task
-    var doSomeFunction: ((Int,Int) -> Int)!
+    //    MARK:- second task
+    func doSomeFunc() {
+    }
     
     //    MARK:- third task
     func shift(string: String,to number: Int, completionBlock: @escaping (String) -> (Void) ) {
