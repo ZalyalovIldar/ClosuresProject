@@ -10,7 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    var doWork: ((Int, Int) -> Int)!
+    var doWork: (() ->Void)?
+    var testSum = 50
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,16 +23,7 @@ class ViewController: UIViewController {
         let findPiDigitMethod = digitInPI(position: 5)
         print(findPiDigitMethod())
         
-        doWork = addition(with:and:)
-        print(doWork(2, 5))
-        
-        doWork = multiplication(with:and:)
-        print(doWork(2, 5))
-        
-        doWork = {fisrt,second in
-            return fisrt / second
-        }
-        print(doWork(5, 2))
+        testWork()
         
         move(string: "HelloWorld", to: 5) { print($0) }
     }
@@ -68,12 +60,16 @@ class ViewController: UIViewController {
     
     //MARK: - second exercise
     
-    private func addition(with fisrt: Int, and second: Int) -> Int {
-        return fisrt + second
-    }
-    
-    private func multiplication(with fisrt: Int, and second: Int) -> Int {
-        return fisrt * second
+    private func testWork() {
+        doWork = { [weak self] in
+            if let selfWrapped = self {
+                selfWrapped.testSum += 50
+                print(selfWrapped.testSum)
+            }
+        }
+        if let work = doWork {
+            work()
+        }
     }
     
     //MARK: - third exercise
