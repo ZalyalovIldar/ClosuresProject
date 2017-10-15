@@ -47,18 +47,20 @@ class ViewController: UIViewController {
         
         func findDigit() -> Int {
             let fraction = 1
+            let errorCode = -1
+            let seperator = "."
             
             let stringPI = String(Double.pi)
-            let partsOfPI = stringPI.components(separatedBy: ".")
+            let partsOfPI = stringPI.components(separatedBy: seperator)
             let fractionString = partsOfPI[fraction]
             if fractionString.count < position {
-                return -1
+                return errorCode
             }
             let charactefOfDigit:String = fractionString[position]
             if let digit = Int(charactefOfDigit) {
                 return digit
             }
-            return -1
+            return errorCode
         }
         
         return findDigit
