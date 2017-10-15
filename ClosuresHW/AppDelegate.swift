@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  ClosuresSwift
+//  ClosuresHW
 //
-//  Created by Ildar Zalyalov on 12.10.2017.
-//  Copyright © 2017 ru.itisIosLab. All rights reserved.
+//  Created by Дамир Зарипов on 15.10.17.
+//  Copyright © 2017 Дамир Зарипов. All rights reserved.
 //
 
 import UIKit
