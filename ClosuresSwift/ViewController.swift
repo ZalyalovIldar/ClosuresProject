@@ -10,129 +10,69 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var label: UILabel!
+    var doWork: (() -> Void)?
     
-    lazy var someArray:[String] = {
-        
-        return ["NewValue","NewValue","NewValue","NewValue"]
-    }()
-    
-    lazy var tableView: UITableView = {
-        
-        let table = UITableView(frame: self.view.frame, style: .grouped)
-        return table
-    }()
+    var importantNumber = 16
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let digit = getDigitOfPI(from: 1)
+        print(digit())
         
-        let value = calculateValue(with: 5)
-        let value1 = calculateValue(with: 5)
+        rotate(with: "незнайка", on: 1) {print($0)}
         
-        someArray.sort { (string1: String, string2: String) -> Bool in
-            return string1 > string2
+        doWork = { [weak self] in
+            if let vc = self {
+                vc.importantNumber += 21
+                print(vc.importantNumber)
+            }
         }
         
-        someArray.sort { (str1, str2) -> Bool in return str1 > str2 }
-        
-        someArray.sort { (str1, str2) -> Bool in str1 > str2 }
-        
-        someArray.sort{ $0 > $1 }
-        
-        someArray.sort(by: >)
-        
-        let a = 5
-        let b = 6
-        
-        var sumBlock: Int = {
-            return a + b
-        }()
-        
-        print(value())
-        print(value())
-        print(value1())
-        
-        someFunction { [weak self] (myInt) in
-            
-            guard let strongSelf = self else { return }
-            
-            strongSelf.calculate(with: myInt)
-            
-            let value = strongSelf.someArray[myInt]
-            
+        if let doOperation = doWork {
+            doOperation()
         }
         
-        label.text = "dasd"
-        label.frame.size.width = 100
-        
-       
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-    func calculateValue(with someInt: Int) -> () -> Int{
-        var value = 0
+    
+    //MARK: 3 Task
+    func rotate(with string: String, on position: Int, completionBlock: @escaping (String) -> () ) {
+        var array = Array(string)
         
-        func calculate() -> Int {
+        for i in 0 ..< position {
             
-            value += someInt
-            
-            return value
+            for j in stride(from: array.count - 1, to: 0, by: -1) {
+                
+                let temp = array[j]
+                array[j] = array[j - 1]
+                array[j - 1] = temp
+            }
         }
-        
-        return calculate
+        completionBlock(String(array))
     }
     
-    func calculate(with someInt: Int) -> Int {
-        var value = 0
-        
-        return value + someInt
-    }
     
-    func someFunction(completion:@escaping (Int) -> (Void)) {
+    //MARK: 1 Task
+    func getDigitOfPI(from position: Int) -> () -> Int {
+        var charArrayPI = Array(String(Double.pi))
+        charArrayPI.remove(at: 1)
+        let errorMessage: Int = -1
         
-        var someInt = 5
-        
-        completion(someInt)
-        
-        let cl = SomeClass()
-        let structCL = SomeStruct(name: "", age: 123)
-        let secondCl = structCL
-        
-    }
-    
-}
-
-extension Int {
-    
-    func sum(with int: Int) {
-        return self + int
-    }
-}
-struct SomeStruct {
-    var name: String
-    var age: Int
-}
-
-extension SomeStruct {
-    func someFun() {
-        
+        func processing() -> Int {
+            if (charArrayPI.count < position) {
+                
+                return errorMessage
+                
+            } else {
+                
+                if let digit = Int(String(charArrayPI[position - 1])) {
+                    
+                    return digit
+                }
+            }
+            return errorMessage
+        }
+        return processing
     }
 }
-
-class SomeClass {
-    var name: String!
-    var age: Int = 5
-    
-}
-
-extension SomeClass {
-    var newValue: Int? {
-        return self.age
-    }
-}
-
