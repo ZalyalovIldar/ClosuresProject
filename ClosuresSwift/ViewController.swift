@@ -5,7 +5,9 @@ class ViewController: UIViewController {
     let dotSeporator:Character = "."
     let stringToWorkWith = "Hello"
     let primal:Character = "!"
-    var doSomeFunction: (() -> Int)!
+    var doSomeFunction: (() -> Void)!
+    var someValue = 99999
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,9 +20,11 @@ class ViewController: UIViewController {
         print(calculatedKValue())
         
         // MARK:- second task testing
-        
+        doSomethingFunction()
         // MARK:- third task testing
-        shift(string: stringToWorkWith, to: 2) {print($0)}
+        shift(string: stringToWorkWith, to: 13) { (stringToWorkWith) -> (Void) in
+            print(stringToWorkWith)
+        }
     }
     
     //    MARK: - first task
@@ -47,16 +51,26 @@ class ViewController: UIViewController {
     }
     
     //    MARK:- second task
-    func doSomeFunc() {
+    func doSomethingFunction() {
+        doSomeFunction = {[weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.someValue *= 999999
+            print(strongSelf.someValue)
+        }
+        guard let doSomething = doSomeFunction else { return }
+        doSomething()
     }
+   
     
     //    MARK:- third task
     func shift(string: String,to number: Int, completionBlock: @escaping (String) -> (Void) ) {
+        doSomeFunction = {
         var resultString = string
         for _ in 0 ..< number {
             let lastCharecter = resultString.removeLast()
             resultString = String(lastCharecter) + resultString
         }
         completionBlock(resultString)
+        }
     }
 }
