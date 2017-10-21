@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  ClosuresHW
+//  ClousersHomeWork
 //
-//  Created by Дамир Зарипов on 15.10.17.
+//  Created by Дамир Зарипов on 21.10.17.
 //  Copyright © 2017 Дамир Зарипов. All rights reserved.
 //
 
@@ -12,7 +12,6 @@ class ViewController: UIViewController {
 
     var doWork: (() -> Void)?
     var multiplayTest = 10
-    //var complitionBlock: ((String, Int) -> String)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +21,10 @@ class ViewController: UIViewController {
     //MARK: - Test
     
     func test() {
+        
         //Test Exercise1
         let testEx1 = getNumberOfPi(position: 4)
+        print (testEx1())
         print (testEx1())
         
         //Test Exercise2
@@ -37,10 +38,9 @@ class ViewController: UIViewController {
         if let doWorkCheck = doWork {
             doWorkCheck()
         }
-    
+        
         //Test Exercise3
-        let testEx3 = shiftCharacters(in: "Hello World", by: 2)
-        print(testEx3)
+        shiftCharacters(in: "Hello World", by: 4) {print($0)}
     }
     
     //MARK: - Exercise1
@@ -60,13 +60,14 @@ class ViewController: UIViewController {
             }
             return falseValue
         }
+        
         return findNumberOfPi
     }
-
+    
     //MARK: - Exercise3
     
-    func shiftCharacters(in string: String, by shiftTo: Int) -> String {
-    
+    func shiftCharacters(in string: String, by shiftTo: Int, complitionBlock: @escaping (String) -> ()) {
+        
         var result: String = string
         
         for _ in 0 ..< shiftTo {
@@ -75,8 +76,8 @@ class ViewController: UIViewController {
             result = String(lastCharacter) + String(tempArray)
         }
         
-        return result
+        complitionBlock(result)
     }
-    
+
 }
 

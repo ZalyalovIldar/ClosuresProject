@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  ClosuresHW
+//  ClousersHomeWork
 //
-//  Created by Дамир Зарипов on 15.10.17.
+//  Created by Дамир Зарипов on 21.10.17.
 //  Copyright © 2017 Дамир Зарипов. All rights reserved.
 //
 
